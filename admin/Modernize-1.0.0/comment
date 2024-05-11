@@ -1,0 +1,48 @@
+<?php
+include_once( 'includes/loginCkecker.php' );
+include_once( '../conn.php' );
+
+if ( isset( $_GET[ 'user_id' ] ) ) {
+    $user_id = $_GET[ 'user_id' ];
+    // if ( $_SERVER[ 'REQUEST_METHOD' ] === 'GET' ) {
+
+    //         try {
+    //             $sql = "INSERT INTO users(name, password, email,active) 
+//       VALUES (?, ?, ?, ?)";
+    //             $name = $_POST[ 'name' ];
+    //             $password = password_hash( $_POST[ 'password' ], PASSWORD_DEFAULT );
+    //             $email = $_POST[ 'email' ];
+    //             // if ( isset( $_POST[ 'active' ] ) ) {
+    //             //     $active = $_POST[ 'active' ];
+    //             //     $active = 1;
+    //             // } else {
+    //             //     $active = 0;
+    //             // }
+    //             $active = isset( $_POST[ 'active' ] );
+    //             $stmt = $conn->prepare( $sql );
+    //             $stmt->execute( [ $name, $password, $email, $active ] );
+    //             // echo 'Inserted Successfuly';
+    //             header( 'location:insertUser.php?insert=success' );
+    //             die;
+    //         } catch ( PDOException $e ) {
+    //             echo 'falied insert: '.$e->getMessage();
+    //         }
+    // }
+
+    // start user person data...
+    try {
+        $sql = 'SELECT * FROM users WHERE user_id = ?';
+        $stmt = $conn->prepare( $sql );
+        $stmt->execute( [ $user_id ] );
+        // if ( $stmt->rowCount() ) {
+            $row_result = $stmt->fetch();
+            $name = $row_result['name'];
+            $email = $row_result[ 'email' ];
+            $active = $row_result[ 'active' ]?"checked":"";
+        // }
+    } catch( PDOException $e ) {
+        $errMsg = $e->getMessage();
+    }
+    //end select user data...
+
+}
